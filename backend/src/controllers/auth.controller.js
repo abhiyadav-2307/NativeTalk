@@ -118,3 +118,70 @@ export function logout(req, res) {
     .status(200)
     .json({ success: true, message: "Logged out successfully" });
 }
+
+export async function onboard(req, res) {
+  try {
+    const userId = req.user._id;
+    const { fullName, bio, nativeLanguage, learningLanguage, location } =
+      req.body;
+
+    if (
+      !fullName ||
+      !bio ||
+      !nativeLanguage ||
+      !learningLanguage ||
+      !location
+    ) {
+      return res.status(400).json({
+        mesage: "All fields are required",
+        missingFields: [
+          !fullName && "fullName",
+          !bio && "bio",
+          !nativeLanguage && "nativeLanguage",
+          !learningLanguage && "learningLanguage",
+          !location && "location",
+        ].filter(Boolean),
+      });
+    }
+
+    const updatedUer = await User.findByIdAndUpdate(
+      userId,
+      {
+        fullName,
+        bio,
+        nativeLanguage,
+        learningLanguage,
+        location,
+        isOnboarded: true,
+      },
+      { new: true }
+    );
+
+    if (!updatedUer) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    try {
+      await upsertStreamUser({
+        id: updatedUer._id.toString(),
+        name: updatedUer.fullName,
+        image: updatedUer.profilePic || "",
+        language: updatedUer.nativeLanguage,
+      });
+      console.log(`Stream User updated after onboarding for ${updatedUer.fullName}`);
+    } catch (error) {
+      console.log(`Error creating or upserting ${updatedUer.fullName}: `, error);
+    }
+
+    const { password, ...rest } = updatedUer._doc; //remove password
+
+    res.status(200).json({
+      success: true,
+      message: "user updated successfully",
+      user: rest,
+    });
+  } catch (error) {
+    console.log("Onboarding error: ", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
