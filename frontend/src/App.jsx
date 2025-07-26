@@ -16,14 +16,14 @@ const App = () => {
 
   // Fetch the authenticated user
   const { data:authData, isLoading, error } = useQuery({
-    queryKey: ["authuser"],
+    queryKey: ["authUser"],
     queryFn: async () => {
       const res = await axiosInstance("/auth/me");
       return res.data;
     },
     retry: false,
   });
-  const authUser = authData?.data;
+  const authUser = authData?.user;
 
 
   return (
