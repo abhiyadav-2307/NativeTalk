@@ -133,7 +133,7 @@ export async function onboard(req, res) {
       !location
     ) {
       return res.status(400).json({
-        mesage: "All fields are required",
+        message: "All fields are required",
         missingFields: [
           !fullName && "fullName",
           !bio && "bio",
