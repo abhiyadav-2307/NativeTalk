@@ -29,3 +29,13 @@ export const completeOnboarding = async (userData) => {
     throw error;
   }
 };
+
+export const login = async (loginData) => {
+  try {
+    const res = await axiosInstance.post("/auth/login", loginData);
+    return res.data;
+  } catch (error) {
+    console.error("Error in login:", error);
+    throw error;
+  }
+};
