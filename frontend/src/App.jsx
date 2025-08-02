@@ -10,24 +10,30 @@ import ChatPage from "./Pages/ChatPage.jsx";
 import { Toaster } from "react-hot-toast";
 import PageLoader from "./components/PageLoader.jsx";
 import useAuthUser from "./hooks/useAuthUser.js";
+import Layout from "./components/Layout.jsx";
+import { useThemeStore } from "./store/useThemeStore.js";
 
 const App = () => {
   // Fetch the authenticated user
   const { isLoading, authUser } = useAuthUser();
+
+  const {theme} = useThemeStore();
 
   const isAuthenticated = Boolean(authUser);
   const isOnboarded = authUser?.isOnboarded;
 
   if (isLoading) return <PageLoader />;
   return (
-    <div data-theme="dim">
+    <div data-theme={theme} className="min-h-screen flex flex-col">
       <Routes>
         <Route
           path="/"
           element={
             isAuthenticated ? (
               isOnboarded ? (
-                <HomePage />
+                <Layout showSidebar={true}>
+                  <HomePage />
+                </Layout>
               ) : (
                 <Navigate to="/onboarding" />
               )

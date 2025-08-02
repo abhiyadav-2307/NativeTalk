@@ -39,3 +39,13 @@ export const login = async (loginData) => {
     throw error;
   }
 };
+
+export const logout = async () => {
+  try {
+    const res = await axiosInstance.post("/auth/logout");
+    return res.data;
+  } catch (error) {
+    console.error("Error in logout:", error);
+    throw error;
+  }
+};

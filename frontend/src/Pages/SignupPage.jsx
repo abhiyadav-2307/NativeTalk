@@ -2,6 +2,7 @@ import { ShipWheelIcon } from 'lucide-react';
 import React, {useState} from 'react'
 import { Link } from 'react-router-dom';
 import useSignUp from '../hooks/useSignUp';
+import { useThemeStore } from '../store/useThemeStore';
 
 const SignupPage = () => {
   const [signupData, setSignupData] = useState({
@@ -11,6 +12,8 @@ const SignupPage = () => {
   });
   const { isPending, error, signupMutation } = useSignUp();
 
+    const {theme} = useThemeStore();
+
   const handleSignup = (e) => {
     e.preventDefault();
     signupMutation(signupData);
@@ -19,7 +22,7 @@ const SignupPage = () => {
   return (
     <div
       className="h-screen flex items-center justify-center p-4 sm:p-6 md:p-8"
-      data-theme="forest"
+      data-theme={theme}
     >
       <div className="border border-primary/25 flex flex-col lg:flex-row w-full max-w-5xl mx-auto bg-base-100 rounded-xl shadow-lg overflow-hidden">
         {/* SIGNUP FORM - LEFT SIDE */}
