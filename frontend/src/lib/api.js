@@ -49,3 +49,44 @@ export const logout = async () => {
     throw error;
   }
 };
+
+export async function getUserFriends() {
+  try {
+    const res = await axiosInstance.get("/users/friends");
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching user friends:", error);
+    throw error;
+  }
+}
+
+export async function getRecommendedUsers() {
+  try {
+    const res = await axiosInstance.get("/users");
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching recommended users:", error);
+    throw error;
+  }
+}
+
+export async function getOutgoingFriendReqs() {
+  try {
+    const res = await axiosInstance.get("/users/outgoing-friend-requests");
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching outgoing friend requests:", error);
+    throw error;
+  }
+}
+
+export async function sendFriendRequest(userId) {
+  try {
+    const res = await axiosInstance.post(`/users/friend-request/${userId}`);
+    //console.log("userId", userId);
+    return res.data;
+  } catch (error) {
+    console.error("Error sending friend request:", error);
+    throw error;
+  }
+}

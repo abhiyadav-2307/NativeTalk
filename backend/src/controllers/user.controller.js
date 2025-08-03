@@ -3,12 +3,12 @@ import User from "../models/User.js";
 
 export async function getRecommendedUsers(req, res) {
   try {
-    const currentUserId = req.user;
-    const currentUser = req.uer;
+    const currentUserId = req.user._id;
+    const currentUser = req.user;
     const recommendedUsers = await User.find({
       $and: [
         { _id: { $ne: currentUserId } },
-        { $id: { nin: currentUser.friends } },
+        { _id: { $nin: currentUser.friends } },
         { isOnboarded: true },
       ],
     });
@@ -22,14 +22,14 @@ export async function getRecommendedUsers(req, res) {
 
 export async function getMyFriends(req, res) {
   try {
-    const user = await findById(req.user._id)
+    const user = await User.findById(req.user._id)
       .select("friends")
       .populate(
         "friends",
         "fullName profilePic nativeLanguage learningLanguage"
       );
 
-    req.status(200).json(user.friends);
+    res.status(200).json(user.friends);
   } catch (error) {
     console.log("Error in getMyFriends controller: ", error.message);
     res.status(500).json({ message: "Internal server error" });

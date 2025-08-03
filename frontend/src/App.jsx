@@ -17,7 +17,7 @@ const App = () => {
   // Fetch the authenticated user
   const { isLoading, authUser } = useAuthUser();
 
-  const {theme} = useThemeStore();
+  const { theme } = useThemeStore();
 
   const isAuthenticated = Boolean(authUser);
   const isOnboarded = authUser?.isOnboarded;
