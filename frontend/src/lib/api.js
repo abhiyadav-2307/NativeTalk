@@ -90,3 +90,25 @@ export async function sendFriendRequest(userId) {
     throw error;
   }
 }
+
+export async function getFriendRequests() {
+  try {
+    const res = await axiosInstance.get("/users/friend-requests");
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching friend requests:", error);
+    throw error;
+  }
+}
+
+export async function acceptFriendRequest(requestId) {
+  try {
+    const res = await axiosInstance.put(
+      `/users/friend-request/${requestId}/accept`
+    );
+    return res.data;
+  } catch (error) {
+    console.error("Error accepting friend request:", error);
+    throw error;
+  }
+}

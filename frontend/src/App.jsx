@@ -12,6 +12,7 @@ import PageLoader from "./components/PageLoader.jsx";
 import useAuthUser from "./hooks/useAuthUser.js";
 import Layout from "./components/Layout.jsx";
 import { useThemeStore } from "./store/useThemeStore.js";
+import NotificationsPage from "./Pages/NotificationsPage.jsx";
 
 const App = () => {
   // Fetch the authenticated user
@@ -83,7 +84,17 @@ const App = () => {
         <Route
           path="/notifications"
           element={
-            isAuthenticated ? <NotificationPage /> : <Navigate to="/login" />
+            isAuthenticated ? (
+              isOnboarded ? (
+                <Layout showSidebar={true}>
+                  <NotificationsPage />
+                </Layout>
+              ) : (
+                <Navigate to="/onboarding" />
+              )
+            ) : (
+              <Navigate to="/login" />
+            )
           }
         />
         <Route
