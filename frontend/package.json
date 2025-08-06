@@ -13,6 +13,7 @@
     "@stream-io/video-react-sdk": "^1.19.3",
     "@tanstack/react-query": "^5.83.0",
     "axios": "^1.11.0",
+    "nativetalk": "file:..",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-hot-toast": "^2.5.2",
