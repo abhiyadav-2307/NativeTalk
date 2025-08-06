@@ -112,3 +112,13 @@ export async function acceptFriendRequest(requestId) {
     throw error;
   }
 }
+
+export async function getStreamToken() {
+  try {
+    const res = await axiosInstance.get("/chat/token");
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching stream token:", error);
+    throw error;
+  }
+}
